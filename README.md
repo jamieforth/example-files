@@ -5,6 +5,7 @@ Example files to test XDF readers.
 * [minimal.xdf](#minimalxdf)
 * [clock\_resets.xdf](#clock_resetsxdf)
 * [empty\_streams.xdf](#empty_streamsxdf)
+* [resampling.xdf](#resamplingxdf)
 
 ## minimal.xdf
 
@@ -580,3 +581,223 @@ Empty stream.
 | 91736.692457 |    ≅0 |
 | 91741.692557 |    ≅0 |
 | 91746.692746 |    ≅0 |
+
+## resampling.xdf
+
+512 Hz synthetic data stream and 1 Hz marker stream (x2).
+
+### Stream 1
+
+8 `float64` channels
+
+#### Header
+
+``` xml
+<info>
+  <name>Resample: Test data stream 0</name>
+  <type>eeg</type>
+  <channel_count>8</channel_count>
+  <channel_format>double64</channel_format>
+  <source_id>test_stream.py:106940</source_id>
+  <nominal_srate>512.0000000000000</nominal_srate>
+  <version>1.100000000000000</version>
+  <created_at>80693.65084625500</created_at>
+  <uid>08b8c9ed-2ff4-4147-a451-62027e8d43d3</uid>
+  <session_id>default</session_id>
+  <hostname>kassia</hostname>
+  <v4address />
+  <v4data_port>16572</v4data_port>
+  <v4service_port>16572</v4service_port>
+  <v6address />
+  <v6data_port>16573</v6data_port>
+  <v6service_port>16573</v6service_port>
+  <desc>
+	<manufacturer>pylsltools</manufacturer>
+	<channels>
+	  <channel>
+		<label>sine 1Hz</label>
+		<type>misc</type>
+	  </channel>
+	  <channel>
+		<label>sine 2Hz</label>
+		<type>misc</type>
+	  </channel>
+	  <channel>
+		<label>sine 4Hz</label>
+		<type>misc</type>
+	  </channel>
+	  <channel>
+		<label>sine 8Hz</label>
+		<type>misc</type>
+	  </channel>
+	  <channel>
+		<label>sine 16Hz</label>
+		<type>misc</type>
+	  </channel>
+	  <channel>
+		<label>sine 32Hz</label>
+		<type>misc</type>
+	  </channel>
+	  <channel>
+		<label>sine 64Hz</label>
+		<type>misc</type>
+	  </channel>
+	  <channel>
+		<label>counter 1</label>
+		<type>counter</type>
+	  </channel>
+	</channels>
+  </desc>
+</info>
+```
+
+#### Footer
+
+```xml
+<info>
+  <first_timestamp>80754.15117545699</first_timestamp>
+  <last_timestamp>80814.15117545699</last_timestamp>
+  <sample_count>30721</sample_count>
+  <clock_offsets>
+    <offset>
+      <time>80715.102474946</time>
+      <value>-3.235399344703183e-05</value>
+    </offset>
+    <!-- cut -->
+    <offset>
+      <time>80825.106114817</time>
+      <value>-4.565099516185001e-05</value>
+    </offset>
+  </clock_offsets>
+</info>
+```
+
+#### Time-series data
+
+| time_stamp   | sine 1Hz | sine 2Hz | sine 4Hz | sine 8Hz | sine 16Hz | sine 32Hz | sine 64Hz | counter 1 |
+|--------------|----------|----------|----------|----------|-----------|-----------|-----------|-----------|
+| 80754.151175 | 0.000    | 0.000    | 0.000    | 0.000    | 0.000     | 0.000     | 0.000     | 0.000     |
+| 80754.153129 | 0.012    | 0.025    | 0.049    | 0.098    | 0.195     | 0.383     | 0.707     | 1.000     |
+| 80754.155082 | 0.025    | 0.049    | 0.098    | 0.195    | 0.383     | 0.707     | 1.000     | 2.000     |
+| 80754.157035 | 0.037    | 0.074    | 0.147    | 0.290    | 0.556     | 0.924     | 0.707     | 3.000     |
+| 80754.158988 | 0.049    | 0.098    | 0.195    | 0.383    | 0.707     | 1.000     | 0.000     | 4.000     |
+| …            | …        | …        | …        | …        | …         | …         | …         | …         |
+| 80814.143363 | -0.049   | -0.098   | -0.195   | -0.383   | -0.707    | -1.000    | 0.000     | 30716.000 |
+| 80814.145316 | -0.037   | -0.074   | -0.147   | -0.290   | -0.556    | -0.924    | -0.707    | 30717.000 |
+| 80814.147269 | -0.025   | -0.049   | -0.098   | -0.195   | -0.383    | -0.707    | -1.000    | 30718.000 |
+| 80814.149222 | -0.012   | -0.025   | -0.049   | -0.098   | -0.195    | -0.383    | -0.707    | 30719.000 |
+| 80814.151175 | -0.000   | -0.000   | -0.000   | -0.000   | -0.000    | -0.000    | -0.000    | 30720.000 |
+
+#### Clock offsets
+
+| time         | value |
+|--------------|-------|
+| 80715.102475 | ≅0    |
+| 80720.102741 | ≅0    |
+| 80725.102970 | ≅0    |
+| 80730.103223 | ≅0    |
+| 80735.103364 | ≅0    |
+| …            | …     |
+| 80805.105204 | ≅0    |
+| 80810.105349 | ≅0    |
+| 80815.105577 | ≅0    |
+| 80820.105828 | ≅0    |
+| 80825.106115 | ≅0    |
+
+### Stream 2
+
+1 `string` channel, 61 samples
+
+#### Header
+
+```xml
+<info>
+	<name>Resample: Test marker stream 0</name>
+	<type>marker</type>
+	<channel_count>1</channel_count>
+	<channel_format>string</channel_format>
+	<source_id>test_stream.py:106942</source_id>
+	<nominal_srate>0.000000000000000</nominal_srate>
+	<version>1.100000000000000</version>
+	<created_at>80693.65198860300</created_at>
+	<uid>f380306e-ea4c-42f1-af9f-34143e238d43</uid>
+	<session_id>default</session_id>
+	<hostname>kassia</hostname>
+	<v4address />
+	<v4data_port>16576</v4data_port>
+	<v4service_port>16576</v4service_port>
+	<v6address />
+	<v6data_port>16577</v6data_port>
+	<v6service_port>16577</v6service_port>
+	<desc>
+		<manufacturer>pylsltools</manufacturer>
+		<channels>
+			<channel>
+				<label>counter 1</label>
+				<type>counter</type>
+			</channel>
+		</channels>
+	</desc>
+</info>
+```
+
+#### Footer
+
+```xml
+<info>
+  <first_timestamp>80754.15117545699</first_timestamp>
+  <last_timestamp>80814.15117545699</last_timestamp>
+  <sample_count>61</sample_count>
+  <clock_offsets>
+    <offset>
+      <time>80715.10266161899</time>
+      <value>-1.568199513712898e-05</value>
+    </offset>
+    <!-- cut -->
+    <offset>
+      <time>80825.10609295151</time>
+      <value>-2.382250386290252e-05</value>
+    </offset>
+  </clock_offsets>
+</info>
+```
+
+#### Time-series data
+
+| time_stamp   | counter 1 |
+|--------------|-----------|
+| 80754.151175 | 0         |
+| 80755.151175 | 1         |
+| 80756.151175 | 2         |
+| 80757.151175 | 3         |
+| 80758.151175 | 4         |
+| …            | …         |
+| 80810.151175 | 56        |
+| 80811.151175 | 57        |
+| 80812.151175 | 58        |
+| 80813.151175 | 59        |
+| 80814.151175 | 60        |
+
+#### Clock offsets
+
+| time         | value |
+|--------------|-------|
+| 80715.102662 | ≅0    |
+| 80720.102861 | ≅0    |
+| 80725.103058 | ≅0    |
+| 80730.103289 | ≅0    |
+| 80735.103390 | ≅0    |
+| …            | …     |
+| 80805.105279 | ≅0    |
+| 80810.105387 | ≅0    |
+| 80815.105590 | ≅0    |
+| 80820.105858 | ≅0    |
+| 80825.106093 | ≅0    |
+
+### Stream 3
+
+Similar to stream 1.
+
+### Stream 4
+
+Similar to stream 2.
